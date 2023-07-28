@@ -1,0 +1,22 @@
+.page-header {
+    background-color: #652596;
+    margin-top: 0;
+    padding: 20px 20px 20px 40px;
+    font-family: 'Space Mono', monospace;
+}
+
+    /* px - 해당 크기로 고정 */
+    /* em - 부모 태그에 지정되어 있는 크기 상속(기본적으로 지정된 크기의 배수) */
+    /* % - 전체 화면 or 부모 태그의 %로 정해줌 */
+
+.page-header h1 {
+    color: #FFFFFF;
+}
+
+.container {
+    font-family: 'Space Mono', monospace;
+}
+
+.container h2 {
+    color: #b9f442;
+}
