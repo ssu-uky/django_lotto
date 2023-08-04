@@ -46,3 +46,19 @@ request.POST["name값"] == request.POST["fname"]
 request.POST -> dict
 - dict의 key == input tag의 name 값
 - dict의 value == input tag의 value 값 (== user가 입력한 값)
+
+
+def post(request):
+    if request.method == "POST":  # post요청이 들어온 경우 / dict 형태로 출력
+        # print(request.POST) #-> dict 형식으로 <QueryDict:{~~~~}> 로 출력 됨
+        
+        # 상단에서 dict 안에 출력 된 이름을 따로 꺼내서 내용만 출력함
+        # print("\n\n\n")
+        # print(request.POST["csrfmiddlewaretoken"])
+        # print(request.POST["name"])
+        # print(request.POST["text"])
+        # print("\n\n\n")
+
+        form = PostForm(request.POST)
+        
+    return render(request, "lotto/form.html", {"form": form})

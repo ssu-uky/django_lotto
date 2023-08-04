@@ -19,16 +19,24 @@
 
 <body>
     <div class="page-header">
-        <h1>Selected Lotto Numbers</h1>
+        <h1>
+            Selected Lotto Numbers
+            <a href="{% url 'new_lotto' %}"> <!-- url Reversing : url 패턴이 변경 시 한번에 변경되기위해 url(별명) 명령어를 사용-->
+                <span class="glyphicon glyphicon-plus btn btn-default"></span>
+            </a>
+    </h1>
+
     </div>
     <div class="container lotto">
 
         {% comment %} for문 뒤에 있는 lottos는 views.py에서 넘겨준 key 값 {% endcomment %}
         {% for lotto in lottos %}
-            <h2>{{ lotto.text }}</h2>
-            <p>{{ lotto.update_date }}</p>
-            <p>{{ lotto.lottos | linebreaksbr }}</p>
+        <!-- urls.py의 name='detail' 과 lottokey 에 해당 -->
+        <h2><a href="{% url 'detail' lottokey=lotto.pk %}">{{lotto.text}}</a></h2>
+        <p>{{ lotto.update_date }}</p>
+        <p>{{ lotto.lottos | linebreaksbr }}</p>
         {% endfor %}
+
 
     </div>
 

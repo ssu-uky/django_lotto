@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import numpy as np
 from django.utils import timezone
@@ -13,23 +13,41 @@ from .forms import PostForm
 
 
 def index(request):
-    
     lottos = GuessNumbers.objects.all()  # 전체 행을 가져옴
 
     # return render(request, html 경로를 포함한 파일 이름, dict에 내가 생성한 python 변수)
-    return render(request, "lotto/default.html", {"lottos": lottos})  # context-dict # key값은 lottos 로 설정하고 value 값은(파이썬 변수) 상단에 있는 lottos를 받음
+    return render(
+        request, "lotto/default.html", {"lottos": lottos}
+    )  # context-dict # key값은 lottos 로 설정하고 value 값은(파이썬 변수) 상단에 있는 lottos를 받음
 
 
 def post(request):
-    
-    form = PostForm()
-    
-    return render(request, "lotto/form.html", {"form":form})
+    # md 51번줄 참고
+    if request.method == "POST":
+        form = PostForm(request.POST)  # POST 요청을 모두 넣어놓음
 
+        if form.is_valid():
+            lotto = form.save(commit=False)  # commit 함수 : default = True
+            lotto.generate()  # lotto 변수에 generate 함수 실행 / generate 안에 save가 있기 때문에 lotto.save() 안해도 됨
+
+            return redirect("index")  # urls.py 에 name으로 설정해 준 값을 입력
+        # print(type(lotto)) # <class 'lotto.models.GuessNumbers'>
+
+    else:
+        form = PostForm()
+
+        return render(request, "lotto/form.html", {"form": form})
 
 
 def hello(request):
+    # data = GuessNumbers.objects.all()
+    # data = GuessNumbers.objects.get(id=1)
     return HttpResponse("<h1 style='color:red;'>Hello, world!</h1>")
+
+
+def detail(request, lottokey):
+    lotto = GuessNumbers.objects.get(pk=lottokey)
+    return render(request, "lotto/detail.html", {"lotto": lotto})
 
 
 # def index(request):
